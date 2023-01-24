@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "es6",
+    "allowSyntheticDefaultImports": true,
+    "lib": ["es2020"],
+    "types": ["node", "express"]
+  },
+  "include": ["src/server/**/*"],
+  "exclude": ["node_modules"]
+}

@@ -1,0 +1,504 @@
+{
+  "records": [
+    {
+      "CountryCode": "FI",
+      "DisplayNameEN": "Finland",
+      "DisplayNameFI": "Suomi",
+      "Address": "Keskuskatu 3",
+      "Name2": "c/o Postin automaatti, Box by Posti",
+      "PostalCode": "00104",
+      "City": "Helsinki",
+      "Eu": true
+    },
+    {
+      "CountryCode": "EE",
+      "DisplayNameEN": "Estonia",
+      "DisplayNameFI": "Viro",
+      "Address": "Liivalaia 53",
+      "Name2": "c/o Tallinna Stockmann",
+      "PostalCode": "10145",
+      "City": "Tallinn",
+      "Eu": true
+    },
+    {
+      "CountryCode": "LV",
+      "DisplayNameEN": "Latvia",
+      "DisplayNameFI": "Latvia",
+      "Address": "Dambja iela 10",
+      "Name2": "c/o Smartpost Narvesen Dambja",
+      "PostalCode": "1005",
+      "City": "Riga",
+      "Eu": true
+    },
+    {
+      "CountryCode": "LT",
+      "DisplayNameEN": "Lithuania",
+      "DisplayNameFI": "Liettua",
+      "Address": "Šventaragio g. 2",
+      "Name2": "c/o Parcel Shop Narvesen",
+      "PostalCode": "01122",
+      "City": "Vilnius",
+      "Eu": true
+    },
+    {
+      "CountryCode": "AD",
+      "DisplayNameEN": "Andorra",
+      "DisplayNameFI": "Andorra",
+      "Address": "Carrer Mossèn Cinto Verdaguer 4",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "500",
+      "City": "Andorra la Vella",
+      "Eu": true
+    },
+    {
+      "CountryCode": "AL",
+      "DisplayNameEN": "Albania",
+      "DisplayNameFI": "Albania",
+      "Address": "Bulevardi Zogu I",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "1000",
+      "City": "Tirana",
+      "Eu": false
+    },
+    {
+      "CountryCode": "AT",
+      "DisplayNameEN": "Austria",
+      "DisplayNameFI": "Itävalta",
+      "Address": "Friedrich-Schmidt-Platz 1",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "1010",
+      "City": "Vienna",
+      "Eu": true
+    },
+    {
+      "CountryCode": "AX",
+      "DisplayNameEN": "Åland Islands",
+      "DisplayNameFI": "Ahvenanmaa",
+      "Address": "Hamngatan 2",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "22100",
+      "City": "Marieham",
+      "Eu": false
+    },
+    {
+      "CountryCode": "BA",
+      "DisplayNameEN": "Bosnia and Herzegovina",
+      "DisplayNameFI": "Bosnia ja Herzegovina",
+      "Address": "Obala Kulina bana",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "71000",
+      "City": "Sarajevo",
+      "Eu": false
+    },
+    {
+      "CountryCode": "BE",
+      "DisplayNameEN": "Belgium",
+      "DisplayNameFI": "Belgia",
+      "Address": "Pl. Sainte-Gudule",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "1000",
+      "City": "Bruxelles",
+      "Eu": true
+    },
+    {
+      "CountryCode": "BG",
+      "DisplayNameEN": "Bulgaria",
+      "DisplayNameFI": "Bulgaria",
+      "Address": "Sveti Aleksandar Nevski",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "1000",
+      "City": "Sofia",
+      "Eu": true
+    },
+    {
+      "CountryCode": "BY",
+      "DisplayNameEN": "Belarus",
+      "DisplayNameFI": "Valkovenäjä",
+      "Address": "Vulica Maksima Bahdanoviča 13",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "220029",
+      "City": "Minsk",
+      "Eu": false
+    },
+    {
+      "CountryCode": "CH",
+      "DisplayNameEN": "Switzerland",
+      "DisplayNameFI": "Sveitsi",
+      "Address": "Hodlerstrasse 8",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "3011",
+      "City": "Bern",
+      "Eu": true
+    },
+    {
+      "CountryCode": "CY",
+      "DisplayNameEN": "Cyprus",
+      "DisplayNameFI": "Kypros",
+      "Address": "Mouseiou 1",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "1080",
+      "City": "Nicosia",
+      "Eu": true
+    },
+    {
+      "CountryCode": "CZ",
+      "DisplayNameEN": "Czech Republic",
+      "DisplayNameFI": "Tsekki",
+      "Address": "Václavské nám. 68",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "110 00",
+      "City": "Prague",
+      "Eu": true
+    },
+    {
+      "CountryCode": "DE",
+      "DisplayNameEN": "Germany",
+      "DisplayNameFI": "Saksa",
+      "Address": "Pariser Platz",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "10117",
+      "City": "Berlin",
+      "Eu": true
+    },
+    {
+      "CountryCode": "DK",
+      "DisplayNameEN": "Denmark",
+      "DisplayNameFI": "Tanska",
+      "Address": "Rådhuspladsen 1",
+      "Name2": "223340011 parcel locker name",
+      "PostalCode": "1550",
+      "City": "Copenhagen",
+      "Eu": true
+    },
+    {
+      "CountryCode": "ES",
+      "DisplayNameEN": "Spain",
+      "DisplayNameFI": "Espanja",
+      "Address": "C. de Ruiz de Alarcón, 23",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "28014",
+      "City": "Madrid",
+      "Eu": true
+    },
+    {
+      "CountryCode": "FO",
+      "DisplayNameEN": "Faroe Islands",
+      "DisplayNameFI": "Färsaaret",
+      "Address": "Gundadalsvegur 9",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "100",
+      "City": "Tórshavn",
+      "Eu": false
+    },
+    {
+      "CountryCode": "FR",
+      "DisplayNameEN": "France",
+      "DisplayNameFI": "Ranska",
+      "Address": "Rue de Rivoli",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "75001",
+      "City": "Paris",
+      "Eu": true
+    },
+    {
+      "CountryCode": "GB",
+      "DisplayNameEN": "United Kingdom",
+      "DisplayNameFI": "Iso-Britannia",
+      "Address": "Great Russell St",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "WC1B 3DG",
+      "City": "London",
+      "Eu": false
+    },
+    {
+      "CountryCode": "GG",
+      "DisplayNameEN": "Guernsey",
+      "DisplayNameFI": "Guernsey",
+      "Address": "St. James St",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "GY1 2NY",
+      "City": "Guernsey",
+      "Eu": false
+    },
+    {
+      "CountryCode": "GR",
+      "DisplayNameEN": "Greece",
+      "DisplayNameFI": "Kreikka",
+      "Address": "Vasilissis Sofias",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "115 21",
+      "City": "Athens",
+      "Eu": true
+    },
+    {
+      "CountryCode": "HR",
+      "DisplayNameEN": "Croatia",
+      "DisplayNameFI": "Kroatia",
+      "Address": "Ćirilometodska ul. 2",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "10000",
+      "City": "Zagreb",
+      "Eu": true
+    },
+    {
+      "CountryCode": "HU",
+      "DisplayNameEN": "Hungary",
+      "DisplayNameFI": "Unkari",
+      "Address": "Kossuth Lajos tér 1-3",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "1055",
+      "City": "Budapest",
+      "Eu": true
+    },
+    {
+      "CountryCode": "IE",
+      "DisplayNameEN": "Ireland",
+      "DisplayNameFI": "Irlanti",
+      "Address": "St. James's Gate 8",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "D08 VF8H",
+      "City": "Dublin",
+      "Eu": true
+    },
+    {
+      "CountryCode": "IM",
+      "DisplayNameEN": "Isle of Man",
+      "DisplayNameFI": "Mansaari",
+      "Address": "1 Kingswood Grove",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "IM1 3LY",
+      "City": "Douglas",
+      "Eu": false
+    },
+    {
+      "CountryCode": "IC",
+      "DisplayNameEN": "Iceland",
+      "DisplayNameFI": "Islanti",
+      "Address": "Grandagarður 8",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "101",
+      "City": "Reykjavik",
+      "Eu": true
+    },
+    {
+      "CountryCode": "IT",
+      "DisplayNameEN": "Italy",
+      "DisplayNameFI": "Italia",
+      "Address": "Viale Enrico de Nicola, 78",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "00185",
+      "City": "Rome",
+      "Eu": true
+    },
+    {
+      "CountryCode": "JE",
+      "DisplayNameEN": "Jersey",
+      "DisplayNameFI": "Jersey",
+      "Address": "10 Hill St",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "JE2",
+      "City": "St Helier",
+      "Eu": false
+    },
+    {
+      "CountryCode": "LI",
+      "DisplayNameEN": "Liechtenstein",
+      "DisplayNameFI": "Liechtenstein",
+      "Address": "Schloss Lichtenstein 1",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "72805",
+      "City": "Lichtenstein",
+      "Eu": true
+    },
+    {
+      "CountryCode": "LU",
+      "DisplayNameEN": "Luxembourg",
+      "DisplayNameFI": "Luxemburg",
+      "Address": "23 Rue du Fossé",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "1536",
+      "City": "Luxemburg",
+      "Eu": true
+    },
+    {
+      "CountryCode": "MC",
+      "DisplayNameEN": "Monaco",
+      "DisplayNameFI": "Monaco",
+      "Address": "Pl. du Casino",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "98000",
+      "City": "Monaco",
+      "Eu": true
+    },
+    {
+      "CountryCode": "MD",
+      "DisplayNameEN": "Moldova, Republic of",
+      "DisplayNameFI": "Moldova",
+      "Address": "Mihail Kogalniceanu St 82",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "2009",
+      "City": "Chisinau",
+      "Eu": false
+    },
+    {
+      "CountryCode": "MK",
+      "DisplayNameEN": "Macedonia, The Former Yugoslav Republic of",
+      "DisplayNameFI": "Makedonia",
+      "Address": "Macedonia St",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "1000",
+      "City": "Skopje",
+      "Eu": false
+    },
+    {
+      "CountryCode": "MT",
+      "DisplayNameEN": "Malta",
+      "DisplayNameFI": "Malta",
+      "Address": "L-Università ta",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "MSD 2080",
+      "City": "Malta",
+      "Eu": false
+    },
+    {
+      "CountryCode": "NL",
+      "DisplayNameEN": "Netherlands",
+      "DisplayNameFI": "Hollanti",
+      "Address": "Museumplein 6",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "1071",
+      "City": "Amsterdam",
+      "Eu": true
+    },
+    {
+      "CountryCode": "NO",
+      "DisplayNameEN": "Norway",
+      "DisplayNameFI": "Norja",
+      "Address": "Huk Aveny 35",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "0287",
+      "City": "Oslo",
+      "Eu": false
+    },
+    {
+      "CountryCode": "PL",
+      "DisplayNameEN": "Poland",
+      "DisplayNameFI": "Puola",
+      "Address": "Plac Zamkowy 4",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "00-277",
+      "City": "Warsaw",
+      "Eu": true
+    },
+    {
+      "CountryCode": "PT",
+      "DisplayNameEN": "Portugal",
+      "DisplayNameFI": "Portugali",
+      "Address": "R. Me. Deus 4",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "1900-312",
+      "City": "Lisbon",
+      "Eu": true
+    },
+    {
+      "CountryCode": "RO",
+      "DisplayNameEN": "Romania",
+      "DisplayNameFI": "Romania",
+      "Address": "Strada Izvor 2-4",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "041037",
+      "City": "Bucharest",
+      "Eu": true
+    },
+    {
+      "CountryCode": "RU",
+      "DisplayNameEN": "Russian Federation",
+      "DisplayNameFI": "Venäjä",
+      "Address": "Prospekt Mira 119",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "129223",
+      "City": "Moscow",
+      "Eu": false
+    },
+    {
+      "CountryCode": "SE",
+      "DisplayNameEN": "Sweden",
+      "DisplayNameFI": "Ruotsi",
+      "Address": "Galärvarvsvägen 14",
+      "Name2": "112200711 parcel locker name",
+      "PostalCode": "11521",
+      "City": "Stockholm",
+      "Eu": true
+    },
+    {
+      "CountryCode": "SI",
+      "DisplayNameEN": "Slovenia",
+      "DisplayNameFI": "Slovenia",
+      "Address": "Grajska planota 1",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "1000",
+      "City": "Ljubljana",
+      "Eu": true
+    },
+    {
+      "CountryCode": "SJ",
+      "DisplayNameEN": "Svalbard and Jan Mayen",
+      "DisplayNameFI": null,
+      "Address": "Barentsburg",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "9178",
+      "City": "Barentsburg",
+      "Eu": false
+    },
+    {
+      "CountryCode": "SK",
+      "DisplayNameEN": "Slovakia",
+      "DisplayNameFI": "Slovakia",
+      "Address": "Kaštieľska 2579",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "821 05",
+      "City": "Bratislava",
+      "Eu": true
+    },
+    {
+      "CountryCode": "SM",
+      "DisplayNameEN": "San Marino",
+      "DisplayNameFI": "San Marino",
+      "Address": "Via Consiglio dei Sessanta 99",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "47891",
+      "City": "Dogana",
+      "Eu": true
+    },
+    {
+      "CountryCode": "UA",
+      "DisplayNameEN": "Ukraine",
+      "DisplayNameFI": "Ukraina",
+      "Address": "Volodymyrska St 40А",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "01034",
+      "City": "Kiew",
+      "Eu": false
+    },
+    {
+      "CountryCode": "VA",
+      "DisplayNameEN": "Holy See (Vatican City State)",
+      "DisplayNameFI": "Vatikaani",
+      "Address": "Piazza San Pietro",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "00120",
+      "City": "Vatican City",
+      "Eu": true
+    },
+    {
+      "CountryCode": "ALL",
+      "DisplayNameEN": "Outside Europe",
+      "DisplayNameFI": "Euroopan ulkopuoli",
+      "Address": "First St",
+      "Name2": "c/o parcel locker name",
+      "PostalCode": "20004",
+      "City": "Washington",
+      "Eu": false
+    }
+  ]
+}

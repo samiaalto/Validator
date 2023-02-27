@@ -4,32 +4,39 @@ import Loading from "./components/Loader";
 import ErrorFallback from "./components/ErrorFallback";
 import UploadButton from "./components/UploadButton";
 import UploadedContent from "./components/UploadedContent";
-import FormatSelect from "./components/FormatSelect";
-import Stats from "./components/Stats";
+//import FormatSelect from "./components/FormatSelect";
+//import Stats from "./components/Stats";
 import { fetchData } from "./components/FetchData";
 import { Row, Col } from "react-bootstrap";
 
+
 const Test = React.lazy(() => import("./components/Test"));
+const Stats = React.lazy(() => import("./components/Stats"));
+const FormatSelect = React.lazy(() => import("./components/FormatSelect");
 
 const App = (props: AppProps) => {
   const [data, setData] = useState("");
+  const [selectedFormat, setSelectedFormat] = useState(null);
   const [validationResource, setValidationResource] = useState(null);
   const [formatsResource, setFormatsResource] = useState(null);
 
-  const validateData = (data) => {
-    setValidationResource(fetchData(data, "validate"));
+  const validateData = (data, selectedFormat) => {
+    setValidationResource(fetchData(data, "validate", selectedFormat.value));
   };
 
   const getFileFormatsData = () => {
-    setFormatsResource(fetchData("", "fileFormats"));
+    setFormatsResource(fetchData("", "fileFormats", ""));
   };
 
   useEffect(() => {
-    if (data) {
-      const timeOutId = setTimeout(() => validateData(data), 100);
+    if (data && selectedFormat) {
+      const timeOutId = setTimeout(
+        () => validateData(data, selectedFormat),
+        100
+      );
       return () => clearTimeout(timeOutId);
     }
-  }, [data]);
+  }, [data, selectedFormat]);
 
   useEffect(() => {
     getFileFormatsData();
@@ -51,31 +58,25 @@ const App = (props: AppProps) => {
                   <UploadButton />
                 </Col>
                 <Col xs={12} sm={4} className="format">
-                  {formatsResource ? (
-                    <FormatSelect resource={formatsResource} />
-                  ) : (
-                    ""
-                  )}
+                  <Suspense fallback={<Loading />}>
+                    <FormatSelect
+                      resource={formatsResource}
+                      selected={setSelectedFormat}
+                    />
+                  </Suspense>
                 </Col>
               </Row>
               <UploadedContent
                 setData={setData}
                 data={data}
                 resource={validationResource}
+                format={selectedFormat}
               />
-              {validationResource ? (
-                <Stats resource={validationResource} />
-              ) : (
-                ""
-              )}
+              <Stats resource={validationResource} />
             </Col>
             <Col xs={12} sm={5} className="errors">
               <Suspense fallback={<Loading />}>
-                {validationResource ? (
-                  <Test resource={validationResource} />
-                ) : (
-                  ""
-                )}
+                <Test resource={validationResource} />
               </Suspense>
             </Col>
           </Row>

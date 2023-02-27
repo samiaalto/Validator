@@ -1,15 +1,22 @@
 const { _, str } = require("ajv");
 import type { KeywordCxt } from "ajv";
 
+interface testData {
+  data?: string;
+  keyword: string;
+  code: any;
+  error: any;
+}
+
 const error = {
-  message: ({ params: { addon, param, element } }) => {
+  message: ({ params: { addon, param, element } }: any) => {
     return str`Additonal service '${addon}' is missing '${param}' property in '${element}' element`;
   },
-  params: ({ params: { addon, param, element } }) =>
+  params: ({ params: { addon, param, element } }: any) =>
     _`{addon: ${addon}, path: ${param}, element: ${element}}`,
 };
 
-const mandatoryFieldsCheck = {
+const mandatoryFieldsCheck: testData = {
   keyword: "mandatoryFieldsCheck",
   error,
   code(cxt: KeywordCxt) {

@@ -6,7 +6,7 @@ import monokaiSublime from "react-syntax-highlighter/dist/esm/styles/hljs/monoka
 import json from "react-syntax-highlighter/dist/esm/languages/hljs/json";
 import xml from "react-syntax-highlighter/dist/esm/languages/hljs/xml";
 
-const UploadedContent = ({ setData, data, resource, scroll }) => {
+const UploadedContent = ({ setData, data, resource, format }) => {
   SyntaxHighlighter.registerLanguage("json", json);
   SyntaxHighlighter.registerLanguage("xml", xml);
 
@@ -21,11 +21,11 @@ const UploadedContent = ({ setData, data, resource, scroll }) => {
   const sync_scroll = (element) => {
     /* Scroll result to scroll coords of event - sync with textarea */
     let result_element = document.querySelector(".highlighter");
-    result_element.scrollTop = element.scrollTop;
-    result_element.scrollLeft = element.scrollLeft;
+    result_element ? (result_element.scrollTop = element.scrollTop) : null;
+    result_element ? (result_element.scrollLeft = element.scrollLeft) : null;
   };
 
-  const type = "json";
+  const type = format && format.type ? format.type : "JSON";
   return (
     <>
       <Row className="uploaded">
@@ -43,7 +43,7 @@ const UploadedContent = ({ setData, data, resource, scroll }) => {
         <SyntaxHighlighter
           language={type}
           style={
-            type === "xml" ? monokai : type === "json" ? monokaiSublime : ""
+            type === "XML" ? monokai : type === "JSON" ? monokaiSublime : ""
           }
           className="highlighter"
           showLineNumbers={true}

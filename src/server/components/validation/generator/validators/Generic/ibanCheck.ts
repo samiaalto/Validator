@@ -1,7 +1,16 @@
 const { _, str } = require("ajv");
 import type { KeywordCxt } from "ajv";
 
-const ibanCheck = {
+interface testData {
+  data?: string;
+  keyword: string;
+  type: string;
+  $data: boolean;
+  code: any;
+  error: any;
+}
+
+const ibanCheck: testData = {
   keyword: "ibanCheck",
   type: "string",
   $data: true,
@@ -11,7 +20,7 @@ const ibanCheck = {
     cxt.fail$data(_`!/^FI\\d{16}$/.test(${data})`);
   },
   error: {
-    message: ({ data }) => str`'${data}' is not a valid IBAN`,
+    message: ({ data }: any) => str`'${data}' is not a valid IBAN`,
   },
 };
 

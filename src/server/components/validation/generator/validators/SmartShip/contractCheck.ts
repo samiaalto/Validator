@@ -1,7 +1,16 @@
 const { _, str } = require("ajv");
 import type { KeywordCxt } from "ajv";
 
-const contractCheck = {
+interface testData {
+  data?: string;
+  keyword: string;
+  type: string;
+  $data: boolean;
+  code: any;
+  error: any;
+}
+
+const contractCheck: testData = {
   keyword: "contractCheck",
   type: "string",
   $data: true,
@@ -10,7 +19,7 @@ const contractCheck = {
     cxt.pass(_`this.contracts.some((e) => e.contract === ${data})`);
   },
   error: {
-    message: ({ data }) => str`'${data}' is not a valid contract number`,
+    message: ({ data }: any) => str`'${data}' is not a valid contract number`,
   },
 };
 

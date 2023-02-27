@@ -5,8 +5,8 @@ import SVG from "react-inlinesvg";
 import { fetchData } from "./FetchData";
 //const resource = fetchData("test");
 const Test = ({ resource }) => {
-  const response = resource.read();
-  response.errors.sort((a, b) => a.row - b.row);
+  const response = resource ? resource.read() : "";
+  response.errors?.sort((a, b) => a.row - b.row);
 
   const scrollTo = (position) => {
     if (position) {
@@ -15,19 +15,19 @@ const Test = ({ resource }) => {
 
       if (row !== null) {
         let headerOffset = 100;
-        let rowPosition = row.offsetTop;
-        let elementPosition = element.offsetTop;
+        let rowPosition = row?.offsetTop;
+        let elementPosition = element?.offsetTop;
 
         let offsetPosition = elementPosition + rowPosition - headerOffset;
 
-        element.scrollTo({
+        element?.scrollTo({
           top: offsetPosition,
           behavior: "smooth",
         });
 
         let result_element = document.querySelector(".inputTextArea");
         // Get and set x and y
-        result_element.scrollTo({
+        result_element?.scrollTo({
           top: offsetPosition,
           behavior: "smooth",
         });

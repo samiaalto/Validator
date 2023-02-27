@@ -1,8 +1,8 @@
 import React from "react";
 import Select, { components, StylesConfig } from "react-select";
 
-const FormatSelect = ({ resource }) => {
-  const response = resource.read();
+const FormatSelect = ({ resource, selected }) => {
+  const response = resource ? resource.read() : "";
 
   const data = response ? response : [];
 
@@ -75,6 +75,7 @@ const FormatSelect = ({ resource }) => {
       styles={customStyles}
       options={data}
       closeMenuOnSelect={true}
+      onChange={selected}
       isMulti={false}
       placeholder={placeholder}
       className="formatSelect"

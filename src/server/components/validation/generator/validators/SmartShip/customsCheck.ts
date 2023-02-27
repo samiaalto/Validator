@@ -1,14 +1,22 @@
 const { _, str } = require("ajv");
 import type { KeywordCxt } from "ajv";
 
+interface testData {
+  data?: string;
+  keyword: string;
+  code: any;
+  error: any;
+}
+
 const error = {
-  message: ({ params: { message } }) => {
+  message: ({ params: { message } }: any) => {
     return message;
   },
-  params: ({ params: { type, field } }) => _`{type: ${type}, field: ${field}}`,
+  params: ({ params: { type, field } }: any) =>
+    _`{type: ${type}, field: ${field}}`,
 };
 
-const customsCheck = {
+const customsCheck: testData = {
   keyword: "customsCheck",
   error,
   code(cxt: KeywordCxt) {

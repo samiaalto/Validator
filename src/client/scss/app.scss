@@ -122,6 +122,10 @@ body {
   background-color: #8e0000 !important;
 }
 
+.highlighter::-webkit-scrollbar {
+  display: none;
+}
+
 .input-numbers {
   display: inline-block;
   position: relative;
@@ -165,6 +169,14 @@ body {
   font-weight: 500;
 }
 
+.error-path {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  direction: rtl;
+  text-align: left;
+}
+
 .ok-card {
   cursor: pointer;
   border: 1px solid #c6c6c6;
@@ -183,6 +195,16 @@ body {
   font-size: 15px;
   font-weight: 500;
   color: #50c878;
+}
+
+.option_header {
+  display: inline-block;
+  width: 100%;
+  font-weight: 700;
+}
+
+.option_info {
+  font-size: 10px;
 }
 
 ::-webkit-scrollbar-thumb {

@@ -1,7 +1,16 @@
 const { _, str } = require("ajv");
 import type { KeywordCxt } from "ajv";
 
-const mobileCheck = {
+interface testData {
+  data?: string;
+  keyword: string;
+  type: string;
+  $data: boolean;
+  code: any;
+  error: any;
+}
+
+const mobileCheck: testData = {
   keyword: "mobileCheck",
   type: "string",
   $data: true,
@@ -13,7 +22,7 @@ const mobileCheck = {
     );
   },
   error: {
-    message: ({ data }) => str`'${data}' is not a valid phone number`,
+    message: ({ data }: any) => str`'${data}' is not a valid phone number`,
   },
 };
 

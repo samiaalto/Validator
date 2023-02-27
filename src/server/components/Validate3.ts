@@ -1,12 +1,17 @@
 const validate_smartship = require("./validation/validation-modules/validate-smartship-cjs");
 const smartship_ext = require("./validation/validation-modules/validate-smartship.json");
+const validate_postra_parcel = require("./validation/validation-modules/validate-postra_parcel-cjs");
+const postra_parcel_ext = require("./validation/validation-modules/validate-postra_parcel.json");
+const txml = require("txml");
+
+import convertData from "./convertData";
 
 const validate3 = async (data: string, fileFormat: string) => {
   const getDataValue = (obj, path) => {
     return path.reduce((o, key) => o && o[key], obj);
   };
 
-  const findErrorRows = (input, errors, parsedInput) => {
+  const findErrorRows = (input, errors, parsedInput, fileFormat) => {
     let out = [];
     let eRows = [];
     let rows = input.split("\n");
@@ -15,7 +20,8 @@ const validate3 = async (data: string, fileFormat: string) => {
       if (
         errors[j].keyword === "mandatoryFieldsCheck" ||
         errors[j].keyword === "customsCheck" ||
-        errors[j].keyword === "required"
+        errors[j].keyword === "required" ||
+        errors[j].keyword === "type"
       ) {
         errors[j]["row"] = 0;
         out.push(errors[j]);
@@ -26,16 +32,45 @@ const validate3 = async (data: string, fileFormat: string) => {
         let value;
 
         if (
-          errors[j].keyword === "serviceAddonsCheck" ||
-          errors[j].keyword === "additonalServiceExclutionCheck"
+          (errors[j].keyword === "serviceAddonsCheck" ||
+            errors[j].keyword === "additonalServiceExclutionCheck") &&
+          fileFormat === "SMARTSHIP"
         ) {
           let splitPropPath = errors[j].params.path.split("/");
           errors[j]["instancePath"] =
             errors[j].instancePath + "/" + errors[j].params.path;
           prop = splitPropPath[splitPropPath.length - 1];
           value = errors[j].params.issue;
-        } else if (splitPath.length > 1) {
+        } else if (
+          (
+            errors[j].keyword === "contractCheck" ||
+            errors[j].keyword === "additonalServiceExclutionCheck" ||
+            errors[j].keyword === "mobileCheck") &&
+          fileFormat === "POSTRA_PARCEL"
+        ) {
+          let splitPropPath = errors[j].instancePath.split("/");
+          errors[j]["instancePath"] =
+            errors[j].instancePath + "/" + errors[j].params.path;
+          prop = splitPropPath[splitPropPath.length - 1];
+          value = errors[j].params.issue;
+        } else if (
+          (errors[j].keyword === "serviceAddonsCheck" ) &&
+          fileFormat === "POSTRA_PARCEL"
+        ) {
+          errors[j]["instancePath"] =
+            errors[j].instancePath + "/" + errors[j].params.path;
+          let splitPropPath = errors[j].instancePath.split("/");
+          prop = splitPropPath[splitPropPath.length - 1] !== "value" ? splitPropPath[splitPropPath.length - 1] : splitPropPath[splitPropPath.length - 3];
+          value = errors[j].params.issue;
+        }else if (splitPath.length > 1) {
           value = getDataValue(parsedInput, splitPath);
+        }
+
+        if (
+          (errors[j].keyword === "additionalServiceCheck"  &&
+          fileFormat === "POSTRA_PARCEL"
+        ) {
+          prop = splitPath[splitPath.length - 3];
         }
 
         for (let i = 0; i < rows.length; i++) {
@@ -68,34 +103,63 @@ const validate3 = async (data: string, fileFormat: string) => {
     }
   };
 
-  try {
-    const parsedData = JSON.parse(data);
+  if (fileFormat === "SMARTSHIP") {
+    try {
+      const parsedData = JSON.parse(data);
 
-    if (fileFormat === "SMARTSHIP") {
       let validate = await validate_smartship;
 
       if (!validate.call(smartship_ext, parsedData)) {
-        let errors = findErrorRows(data, validate.errors, parsedData);
+        let errors = findErrorRows(
+          data,
+          validate.errors,
+          parsedData,
+          fileFormat
+        );
         //console.log(validate.errors);
         return { valid: false, errors: errors };
       } else return { valid: true };
+    } catch (error) {
+      let found = error.message.indexOf("position");
+      let position = -1;
+      let errorLine;
+      if (found > -1) {
+        position = Number(
+          error.message.substring(found + 9, error.message.length)
+        );
+      }
+      if (position > -1) {
+        errorLine = findErrorRow(data, position);
+      }
+      return {
+        valid: false,
+        errors: [{ message: "Invalid data: " + error.message, row: errorLine }],
+      };
     }
-  } catch (error) {
-    let found = error.message.indexOf("position");
-    let position = -1;
-    let errorLine;
-    if (found > -1) {
-      position = Number(
-        error.message.substring(found + 9, error.message.length)
-      );
+  }
+  if (fileFormat === "POSTRA_PARCEL") {
+    try {
+      const parsedData = convertData(txml.parse(data));
+
+      console.dir(parsedData, { depth: null });
+      let validate = await validate_postra_parcel;
+
+      if (!validate.call(postra_parcel_ext, parsedData)) {
+        let errors = findErrorRows(
+          data,
+          validate.errors,
+          parsedData,
+          fileFormat
+        );
+        console.log(validate.errors);
+        return { valid: false, errors: errors };
+      } else return { valid: true };
+    } catch (error) {
+      return {
+        valid: false,
+        errors: [{ message: "Invalid data: " + error.message }],
+      };
     }
-    if (position > -1) {
-      errorLine = findErrorRow(data, position);
-    }
-    return {
-      valid: false,
-      errors: [{ message: "Invalid data: " + error.message, row: errorLine }],
-    };
   }
 };
 

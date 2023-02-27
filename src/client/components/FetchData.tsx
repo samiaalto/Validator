@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const fetchData = (data: string, param: string) => {
+export const fetchData = (data: string, param: string, format: string) => {
   let url;
   let status = "pending";
   let result: any;
@@ -13,6 +13,7 @@ export const fetchData = (data: string, param: string) => {
         headers: {
           "Content-Type": "plain/text",
         },
+        params: { format: format },
         data,
       })
       .then((r) => {

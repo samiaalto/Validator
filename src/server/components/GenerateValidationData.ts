@@ -3,19 +3,34 @@ const services = require("../services.json");
 const contracts = require("../contracts.json");
 const countries = require("../countries.json");
 
+interface serviceData {
+  type?: string;
+  serviceCode?: string;
+  mandatoryFields?: mandatoryFieldsArr;
+  routes?: routesArr;
+  addons?: addonsArr;
+}
+
+interface mandatoryFieldsArr extends Array<string> {}
+interface routesArr extends Array<string> {}
+interface addonsArr extends Array<string> {}
+
 const generateValidationData = (fileFormat: string) => {
   let output = {};
   let out = [];
   let countryArr = [];
   for (let record of services.records) {
-    let service: any = {};
+    let service: serviceData = {};
     //let formatCodes = [];
     let addons = [];
     let mandatoryFields = [];
     let routes = [];
-    //service["fileFormat"] = fileFormat;
-    //service["serviceCode"] = record.ServiceCode;
+
     for (let item of record.Fields) {
+      if (fileFormat !== "SMARTSHIP") {
+        service["type"] = "service";
+        service["serviceCode"] = record.ServiceCode;
+      }
       if (item.MessageFormat === fileFormat && item.PropertyName === "id") {
         service["type"] = "service";
         if (item.MessagePosition === "service") {
@@ -26,20 +41,28 @@ const generateValidationData = (fileFormat: string) => {
       } else if (
         item.MessageFormat === fileFormat &&
         item.PropertyName !== "id" &&
+        item.PropertyName !== "Product" &&
         item.Mandatory
       ) {
         mandatoryFields.push(item.PropertyName);
       }
     }
-    for (let item of record.AdditionalServices) {
-      for (let record of additionalServices.records) {
-        if (item.Addon === record.ServiceCode) {
-          for (let field of record.Fields) {
-            if (
-              field.MessageFormat === fileFormat &&
-              field.PropertyName === "id"
-            )
-              addons.push(field.PropertyValue);
+
+    if (fileFormat !== "SMARTSHIP") {
+      for (let item of record.AdditionalServices) {
+        addons.push(item.Addon);
+      }
+    } else if (fileFormat === "SMARTSHIP") {
+      for (let item of record.AdditionalServices) {
+        for (let record of additionalServices.records) {
+          if (item.Addon === record.ServiceCode) {
+            for (let field of record.Fields) {
+              if (
+                field.MessageFormat === fileFormat &&
+                field.PropertyName === "id"
+              )
+                addons.push(field.PropertyValue);
+            }
           }
         }
       }
@@ -50,15 +73,19 @@ const generateValidationData = (fileFormat: string) => {
         let excluded = [];
         if (dest.ExcludedAdditionalServices.length > 0) {
           for (let exc of dest.ExcludedAdditionalServices) {
-            for (let record of additionalServices.records) {
-              if (exc.Addon === record.ServiceCode) {
-                for (let field of record.Fields) {
-                  if (
-                    field.MessageFormat === fileFormat &&
-                    field.PropertyName === "id" &&
-                    !excluded.includes(field.PropertyValue)
-                  )
-                    excluded.push(field.PropertyValue);
+            if (fileFormat !== "SMARTSHIP") {
+              excluded.push(exc.Addon);
+            } else if (fileFormat === "SMARTSHIP") {
+              for (let record of additionalServices.records) {
+                if (exc.Addon === record.ServiceCode) {
+                  for (let field of record.Fields) {
+                    if (
+                      field.MessageFormat === fileFormat &&
+                      field.PropertyName === "id" &&
+                      !excluded.includes(field.PropertyValue)
+                    )
+                      excluded.push(field.PropertyValue);
+                  }
                 }
               }
             }
@@ -82,13 +109,19 @@ const generateValidationData = (fileFormat: string) => {
     let service = {};
     let mandatoryFields = [];
     let excludedAddons = [];
+
     for (let item of record.Fields) {
+      if (fileFormat !== "SMARTSHIP") {
+        service["type"] = "additionalService";
+        service["serviceCode"] = record.ServiceCode;
+      }
       if (item.MessageFormat === fileFormat && item.PropertyName === "id") {
         service["type"] = "additionalService";
         service["serviceCode"] = item.PropertyValue;
       } else if (
         item.MessageFormat === fileFormat &&
         item.PropertyName !== "id" &&
+        item.PropertyName !== "Service" &&
         item.Mandatory
       ) {
         mandatoryFields.push({
@@ -100,16 +133,20 @@ const generateValidationData = (fileFormat: string) => {
 
     if (record.ExcludedAdditionalServices.length > 0) {
       for (let item of record.ExcludedAdditionalServices) {
-        for (let record of additionalServices.records) {
-          if (item.Addon === record.ServiceCode) {
-            for (let field of record.Fields) {
-              if (
-                field.MessageFormat === fileFormat &&
-                field.PropertyName === "id" &&
-                !excludedAddons.includes(field.PropertyValue) &&
-                field.PropertyValue !== service["serviceCode"]
-              )
-                excludedAddons.push(field.PropertyValue);
+        if (fileFormat !== "SMARTSHIP") {
+          excludedAddons.push(item.Addon);
+        } else if (fileFormat === "SMARTSHIP") {
+          for (let record of additionalServices.records) {
+            if (item.Addon === record.ServiceCode) {
+              for (let field of record.Fields) {
+                if (
+                  field.MessageFormat === fileFormat &&
+                  field.PropertyName === "id" &&
+                  !excludedAddons.includes(field.PropertyValue) &&
+                  field.PropertyValue !== service["serviceCode"]
+                )
+                  excludedAddons.push(field.PropertyValue);
+              }
             }
           }
         }

@@ -4,6 +4,7 @@ import validate2 from "./components/validate2";
 import validate3 from "./components/Validate3";
 import getFormats from "./components/getFormats";
 import standalone from "./components/validation/generator/SmartShip";
+import standalone_postra from "./components/validation/generator/Postra_parcel";
 import generateValidationData from "./components/GenerateValidationData";
 
 var bodyParser = require("body-parser");
@@ -26,7 +27,8 @@ router.get("/api/hello", async (req, res, next) => {
 router.get("/api/build", async (req, res, next) => {
   try {
     //generateValidationData("SMARTSHIP");
-    standalone();
+    //standalone();
+    standalone_postra();
     res.json("success");
   } catch (error) {
     return next(error);
@@ -36,7 +38,6 @@ router.get("/api/build", async (req, res, next) => {
 router.get("/api/getFormats", async (req, res, next) => {
   try {
     const data = await getFormats();
-    console.log(data);
     res.json(data);
   } catch (error) {
     return next(error);
@@ -44,18 +45,17 @@ router.get("/api/getFormats", async (req, res, next) => {
 });
 
 router.post("/api/validate2", async (req, res, next) => {
-  console.log(req.body);
   if (req.body) {
     const t0 = process.hrtime();
     try {
-      const data = await validate3(req.body.data, "SMARTSHIP");
+      const data = await validate3(req.body.data, req.body.params.format);
       //console.dir(data, { depth: null });
       const t1 = process.hrtime(t0);
       const processTime = (t1[0] * 1000000000 + t1[1]) / 1000000;
 
       res.json({
-        valid: data.valid,
-        errors: data.errors,
+        valid: data?.valid,
+        errors: data?.errors,
         processTime: Math.round(processTime),
       });
     } catch (error) {

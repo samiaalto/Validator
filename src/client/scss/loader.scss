@@ -1,15 +1,20 @@
 .spinner-1 {
-  width: 50px;
+  height: 80%;
+  max-height: 50px;
   aspect-ratio: 1;
   border-radius: 50%;
   border: 8px solid;
   border-color: #000 #0000;
   animation: s1 1s infinite;
-  position: fixed; /* or absolute */
+  /* position: absolute;  or absolute 
   top: 50%;
   left: 50%;
   margin-top: -50px;
   margin-left: -50px;
+  */
+  align-self: center;
+  margin: auto;
+  z-index: 100000;
 }
 @keyframes s1 {
   to {

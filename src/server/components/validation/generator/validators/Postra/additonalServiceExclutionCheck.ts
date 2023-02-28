@@ -1,13 +1,23 @@
 const { _, str } = require("ajv");
 import type { KeywordCxt } from "ajv";
 
+interface testData {
+  data?: string;
+  keyword: string;
+  type: string;
+  schema: boolean;
+  code: any;
+  error: any;
+}
+
 const error = {
-  message: ({ params: { addon, addon2 } }) =>
+  message: ({ params: { addon, addon2 } }: any) =>
     str`Additional service '${addon2}' cannot be used together with '${addon}'`,
-  params: ({ params: { addon, path } }) => _`{issue: ${addon}, path: ${path}}`,
+  params: ({ params: { addon, path } }: any) =>
+    _`{issue: ${addon}, path: ${path}}`,
 };
 
-const additonalServiceExclutionCheck = {
+const additonalServiceExclutionCheck: testData = {
   keyword: "additonalServiceExclutionCheck",
   type: "array",
   schema: false,
@@ -15,7 +25,7 @@ const additonalServiceExclutionCheck = {
   code(cxt: KeywordCxt) {
     const { data, gen, schemaCode } = cxt;
     const exclusions = _`${data}.reduce((acc, curr) => {
-      const index = this.services.findIndex(item => item.serviceCode === curr.id);
+      const index = this.services.findIndex(item => item.serviceCode === curr.value);
       if(index > -1) {
         curr.id = this.services[index].serviceCode;
       }   

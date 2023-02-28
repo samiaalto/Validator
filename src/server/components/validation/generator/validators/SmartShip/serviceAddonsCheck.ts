@@ -1,14 +1,22 @@
 import { _, str } from "ajv";
 import type { KeywordCxt } from "ajv";
 
+interface testData {
+  data?: string;
+  keyword: string;
+  code: any;
+  error: any;
+}
+
 const error = {
-  message: ({ params: { message } }) => {
+  message: ({ params: { message } }: any) => {
     return message;
   },
-  params: ({ params: { issue, path } }) => _`{issue: ${issue}, path: ${path}}`,
+  params: ({ params: { issue, path } }: any) =>
+    _`{issue: ${issue}, path: ${path}}`,
 };
 
-const serviceAddonsCheck = {
+const serviceAddonsCheck: testData = {
   keyword: "serviceAddonsCheck",
   error,
   code(cxt: KeywordCxt) {
@@ -20,7 +28,7 @@ const serviceAddonsCheck = {
 
     let serviceRoutes;
     let routes;
-    let deliveryMethod;
+    let deliveryMethod: string;
 
     const valid = gen.let("valid");
     cxt.ok(valid);

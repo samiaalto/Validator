@@ -1,7 +1,15 @@
 const { _, str } = require("ajv");
 import type { KeywordCxt } from "ajv";
 
-const swiftCheck = {
+interface testData {
+  data?: string;
+  keyword: string;
+  $data: boolean;
+  code: any;
+  error: any;
+}
+
+const swiftCheck: testData = {
   keyword: "swiftCheck",
   $data: true,
   code(cxt: KeywordCxt) {
@@ -12,7 +20,7 @@ const swiftCheck = {
     );
   },
   error: {
-    message: ({ data }) => str`'${data}' is not a valid SWIFT`,
+    message: ({ data }: any) => str`'${data}' is not a valid SWIFT`,
   },
 };
 

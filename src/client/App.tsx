@@ -1,87 +1,96 @@
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect, useTransition } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import Loading from "./components/Loader";
 import ErrorFallback from "./components/ErrorFallback";
 import UploadButton from "./components/UploadButton";
 import UploadedContent from "./components/UploadedContent";
-import FormatSelect from "./components/FormatSelect";
-import Stats from "./components/Stats";
-import { fetchData } from "./components/FetchData";
+//import FormatSelect from "./components/FormatSelect";
+//import Stats from "./components/Stats";
+//import Test from "./components/Test";
+import { fetchData, validatePayload } from "./components/FetchData";
+import { createResource, validatePayload } from "./components/FetchData";
 import { Row, Col } from "react-bootstrap";
 
+const initialResource = createResource();
+
 const Test = React.lazy(() => import("./components/Test"));
+const Stats = React.lazy(() => import("./components/Stats"));
+const FormatSelect = React.lazy(() => import("./components/FormatSelect");
 
 const App = (props: AppProps) => {
   const [data, setData] = useState("");
-  const [validationResource, setValidationResource] = useState(null);
-  const [formatsResource, setFormatsResource] = useState(null);
+  const [selectedFormat, setSelectedFormat] = useState(null);
+  const [resource, setResource] = useState(initialResource);
+  const [result, setResult] = useState("");
+  const [isPending, startTransition] = useTransition();
 
-  const validateData = (data) => {
-    setValidationResource(fetchData(data, "validate"));
-  };
-
-  const getFileFormatsData = () => {
-    setFormatsResource(fetchData("", "fileFormats"));
-  };
 
   useEffect(() => {
-    if (data) {
-      const timeOutId = setTimeout(() => validateData(data), 100);
+    if (data && selectedFormat) {
+      const timeOutId = setTimeout(
+        () => startTransition(() => { setResult(validatePayload(data, selectedFormat.value))}),
+        100
+      );
       return () => clearTimeout(timeOutId);
     }
-  }, [data]);
+    
+  }, [data, selectedFormat]);
 
+useEffect(() => {
+    console.log(resource)
+  }, [resource]);
+  
   useEffect(() => {
-    getFileFormatsData();
-  }, []);
+    console.log(result)
+  }, [result]);
 
   return (
     <ErrorBoundary
-      FallbackComponent={ErrorFallback}
-      onReset={() => {
-        // reset the state of the app
-      }}
-    >
-      <div className="app">
-        <div className="container">
-          <Row>
-            <Col xs={12} sm={7}>
-              <Row className="controls">
-                <Col xs={12} sm={8} className="upload">
-                  <UploadButton />
-                </Col>
-                <Col xs={12} sm={4} className="format">
-                  {formatsResource ? (
-                    <FormatSelect resource={formatsResource} />
-                  ) : (
-                    ""
-                  )}
-                </Col>
-              </Row>
-              <UploadedContent
-                setData={setData}
-                data={data}
-                resource={validationResource}
-              />
-              {validationResource ? (
-                <Stats resource={validationResource} />
-              ) : (
-                ""
-              )}
+  FallbackComponent={ErrorFallback}
+  onReset={() => {
+    // reset the state of the app
+  }}
+>
+  <div className="app">
+    <div className="container">
+      <Row>
+        <Col xs={12} sm={7}>
+          <Row className="controls">
+            <Col xs={12} sm={8} className="upload">
+              <UploadButton />
             </Col>
-            <Col xs={12} sm={5} className="errors">
+            <Col xs={12} sm={4} className="format">
               <Suspense fallback={<Loading />}>
-                {validationResource ? (
-                  <Test resource={validationResource} />
-                ) : (
-                  ""
-                )}
+                <FormatSelect
+                  resource={resource}
+                  selected={setSelectedFormat}
+                />
               </Suspense>
             </Col>
           </Row>
-        </div>
-      </div>
-    </ErrorBoundary>
+          <Suspense>
+          <UploadedContent
+            setData={setData}
+            data={data}
+            resource={result}
+            format={selectedFormat}
+          />
+          </Suspense>
+          <Suspense>
+          <Stats resource={result} />
+          </Suspense>
+        </Col>
+        <Col xs={12} sm={5} className="errors">
+          <Suspense>
+            {isPending ? <Loading /> : 
+            <Test resource={result} />
+            }
+          </Suspense>
+        </Col>
+      </Row>
+    </div>
+  </div>
+</ErrorBoundary>
   );
 };
 

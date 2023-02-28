@@ -1,7 +1,15 @@
 const { _, str } = require("ajv");
 import type { KeywordCxt } from "ajv";
 
-const serviceCheck = {
+interface testData {
+  data?: string;
+  keyword: string;
+  type: string;
+  code: any;
+  error: any;
+}
+
+const serviceCheck: testData = {
   keyword: "serviceCheck",
   type: "string",
   code(cxt: KeywordCxt) {
@@ -9,7 +17,7 @@ const serviceCheck = {
     cxt.pass(_`this.services.some((e) => e.serviceCode === ${data})`);
   },
   error: {
-    message: ({ data }) => str`'${data}' is not a valid service`,
+    message: ({ data }: any) => str`'${data}' is not a valid service`,
   },
 };
 

@@ -10,7 +10,7 @@ const UploadedContent = ({ setData, data, resource, format }) => {
   SyntaxHighlighter.registerLanguage("json", json);
   SyntaxHighlighter.registerLanguage("xml", xml);
 
-  const response = resource ? resource.read() : null;
+  const response = resource ? resource.validation.read() : "";
   const rows =
     response && response.errors ? response.errors.map((e) => e.row) : [];
 

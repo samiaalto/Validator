@@ -2,7 +2,7 @@ import React from "react";
 import Select, { components, StylesConfig } from "react-select";
 
 const FormatSelect = ({ resource, selected }) => {
-  const response = resource ? resource.read() : "";
+  const response = resource ? resource.fileFormats.read() : undefined;
 
   const data = response ? response : [];
 

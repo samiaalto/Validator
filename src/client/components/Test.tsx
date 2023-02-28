@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import alertLogo from "./icons/alert.svg";
 import SVG from "react-inlinesvg";
 import { fetchData } from "./FetchData";
 //const resource = fetchData("test");
 const Test = ({ resource }) => {
-  const response = resource ? resource.read() : "";
+  let response = resource ? resource.validation.read() : "";
   response.errors?.sort((a, b) => a.row - b.row);
+
+  //const rows =
+  //  response && response.errors ? response.errors.map((e) => e.row) : [];
+  //setRows(rows);
 
   const scrollTo = (position) => {
     if (position) {

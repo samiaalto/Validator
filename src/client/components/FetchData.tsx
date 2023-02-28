@@ -1,63 +1,53 @@
 import axios from "axios";
 
-export const fetchData = (data: string, param: string, format: string) => {
-  let url;
+export function createResource() {
+  return {
+    fileFormats: wrapPromise(getFileFormats()),
+  };
+}
+
+export function validatePayload(data, format) {
+  return {
+    validation: wrapPromise(validate(data, format)),
+  };
+}
+
+function wrapPromise(promise) {
   let status = "pending";
-  let result: any;
-  let config;
-  if (param === "validate") {
-    url = `/api/validate2`;
+  let result;
+  const suspender = promise.then(
+    (r) => {
+      status = "success";
+      result = r;
+    },
+    (e) => {
+      status = "error";
+      result = e;
+    }
+  );
+  return {
+    read() {
+      if (status === "pending") throw suspender;
+      else if (status === "error") throw result;
+      else if (status === "success") return result;
+    },
+  };
+}
 
-    let suspender = axios
-      .post(url, {
-        headers: {
-          "Content-Type": "plain/text",
-        },
-        params: { format: format },
-        data,
-      })
-      .then((r) => {
-        status = "success";
-        result = r.data;
-      })
-      .catch((e) => {
-        status = "error";
-        result = e;
-      });
-    return {
-      read() {
-        if (status === "pending") {
-          throw suspender;
-        } else if (status === "error") {
-          throw result;
-        } else if (status === "success") {
-          return result;
-        }
-      },
-    };
-  } else if (param === "fileFormats") {
-    url = `/api/getFormats`;
+async function validate(data, format) {
+  let url = `/api/validate2`;
+  const response = await axios.post(url, {
+    headers: {
+      "Content-Type": "plain/text",
+    },
+    params: { format: format },
+    data,
+  });
+  return await response.data;
+}
 
-    let suspender = axios
-      .get(url)
-      .then((r) => {
-        status = "success";
-        result = r.data;
-      })
-      .catch((e) => {
-        status = "error";
-        result = e;
-      });
-    return {
-      read() {
-        if (status === "pending") {
-          throw suspender;
-        } else if (status === "error") {
-          throw result;
-        } else if (status === "success") {
-          return result;
-        }
-      },
-    };
-  }
-};
+async function getFileFormats() {
+  let url = `/api/getFormats`;
+  const response = await axios.get(url);
+  return await response.data;
+}

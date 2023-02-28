@@ -136,6 +136,7 @@ body {
   width: 100%;
   height: calc(100vh - 105px) !important;
   overflow: auto;
+  display: inline-flex;
 }
 
 .error-card {

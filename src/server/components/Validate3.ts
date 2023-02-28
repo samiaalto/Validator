@@ -7,6 +7,7 @@ const txml = require("txml");
 import convertData from "./convertData";
 
 const validate3 = async (data: string, fileFormat: string) => {
+  
   const getDataValue = (obj, path) => {
     return path.reduce((o, key) => o && o[key], obj);
   };

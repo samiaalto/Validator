@@ -70,7 +70,9 @@ const validate3 = async (data: string, fileFormat: string) => {
 
         if (
           (errors[j].keyword === "additionalServiceCheck" ||
-            errors[j].keyword === "trackingcodeCheck") &&
+            errors[j].keyword === "trackingcodeCheck" ||
+            errors[j].keyword === "ISO8601dateCheck" ||
+            errors[j].keyword === "ISO8601timeCheck") &&
           fileFormat === "POSTRA_PARCEL"
         ) {
           if (splitPath[splitPath.length - 1] !== "value") {

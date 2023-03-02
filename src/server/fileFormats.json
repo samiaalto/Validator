@@ -10327,7 +10327,7 @@
           "RepeatMin": 0,
           "RepeatMax": 1,
           "ExampleValue": "date",
-          "Validations": []
+          "Validations": [{ "validation": "ISO8601dateCheck" }]
         },
         {
           "Name": "attr",
@@ -10357,7 +10357,7 @@
           "RepeatMin": 0,
           "RepeatMax": 1,
           "ExampleValue": "time",
-          "Validations": []
+          "Validations": [{ "validation": "ISO8601timeCheck" }]
         },
         {
           "Name": "timeLatest",
@@ -10372,7 +10372,7 @@
           "RepeatMin": 0,
           "RepeatMax": 1,
           "ExampleValue": "time",
-          "Validations": []
+          "Validations": [{ "validation": "ISO8601timeCheck" }]
         },
         {
           "Name": "AgreedDeliveryDate",
@@ -10402,7 +10402,7 @@
           "RepeatMin": 0,
           "RepeatMax": 1,
           "ExampleValue": "date",
-          "Validations": []
+          "Validations": [{ "validation": "ISO8601dateCheck" }]
         },
         {
           "Name": "attr",
@@ -10432,7 +10432,7 @@
           "RepeatMin": 0,
           "RepeatMax": 1,
           "ExampleValue": "time",
-          "Validations": []
+          "Validations": [{ "validation": "ISO8601timeCheck" }]
         },
         {
           "Name": "timeLatest",
@@ -10447,7 +10447,7 @@
           "RepeatMin": 0,
           "RepeatMax": 1,
           "ExampleValue": "time",
-          "Validations": []
+          "Validations": [{ "validation": "ISO8601timeCheck" }]
         },
         {
           "Name": "Instructions",

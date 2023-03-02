@@ -10012,7 +10012,7 @@
           "RepeatMin": 1,
           "RepeatMax": 1,
           "ExampleValue": "dateTime",
-          "Validations": []
+          "Validations": [{ "validation": "ISO8601Check" }]
         },
         {
           "Name": "Sequence",
@@ -10177,7 +10177,7 @@
           "RepeatMin": 1,
           "RepeatMax": 1,
           "ExampleValue": "dateTime",
-          "Validations": []
+          "Validations": [{ "validation": "ISO8601Check" }]
         },
         {
           "Name": "Totals",
@@ -12110,7 +12110,7 @@
           "RepeatMin": 0,
           "RepeatMax": 1,
           "ExampleValue": "JJFI65432112345678901",
-          "Validations": []
+          "Validations": [{ "validation": "trackingcodeCheck" }]
         },
         {
           "Name": "attr",

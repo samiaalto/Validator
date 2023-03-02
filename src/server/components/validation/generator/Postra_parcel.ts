@@ -7,6 +7,8 @@ import additonalServiceExclutionCheck from "./validators/Postra/additonalService
 import mandatoryFieldsCheck from "./validators/Postra/mandatoryFieldsCheck";
 import ibanCheck from "./validators/Generic/ibanCheck";
 import swiftCheck from "./validators/Generic/swiftCheck";
+import ISO8601Check from "./validators/Generic/ISO8601Check";
+import trackingcodeCheck from "./validators/Generic/trackingcodeCheck";
 import mobileCheck from "./validators/Postra/mobileCheck";
 import customsCheck from "./validators/customsCheck";
 import contractCheck from "./validators/Postra/contractCheck";
@@ -39,6 +41,8 @@ const standalone_postra = () => {
   ajv.addKeyword(swiftCheck);
   ajv.addKeyword(contractCheck);
   ajv.addKeyword(mobileCheck);
+  ajv.addKeyword(ISO8601Check);
+  ajv.addKeyword(trackingcodeCheck);
   ajv.addKeyword(mandatoryFieldsCheck);
   //ajv.addKeyword(customsCheck);
 

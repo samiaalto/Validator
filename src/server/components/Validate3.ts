@@ -7,7 +7,6 @@ const txml = require("txml");
 import convertData from "./convertData";
 
 const validate3 = async (data: string, fileFormat: string) => {
-  
   const getDataValue = (obj, path) => {
     return path.reduce((o, key) => o && o[key], obj);
   };
@@ -43,8 +42,7 @@ const validate3 = async (data: string, fileFormat: string) => {
           prop = splitPropPath[splitPropPath.length - 1];
           value = errors[j].params.issue;
         } else if (
-          (
-            errors[j].keyword === "contractCheck" ||
+          (errors[j].keyword === "contractCheck" ||
             errors[j].keyword === "additonalServiceExclutionCheck" ||
             errors[j].keyword === "mobileCheck") &&
           fileFormat === "POSTRA_PARCEL"
@@ -55,23 +53,31 @@ const validate3 = async (data: string, fileFormat: string) => {
           prop = splitPropPath[splitPropPath.length - 1];
           value = errors[j].params.issue;
         } else if (
-          (errors[j].keyword === "serviceAddonsCheck" ) &&
+          errors[j].keyword === "serviceAddonsCheck" &&
           fileFormat === "POSTRA_PARCEL"
         ) {
           errors[j]["instancePath"] =
             errors[j].instancePath + "/" + errors[j].params.path;
           let splitPropPath = errors[j].instancePath.split("/");
-          prop = splitPropPath[splitPropPath.length - 1] !== "value" ? splitPropPath[splitPropPath.length - 1] : splitPropPath[splitPropPath.length - 3];
+          prop =
+            splitPropPath[splitPropPath.length - 1] !== "value"
+              ? splitPropPath[splitPropPath.length - 1]
+              : splitPropPath[splitPropPath.length - 3];
           value = errors[j].params.issue;
-        }else if (splitPath.length > 1) {
+        } else if (splitPath.length > 1) {
           value = getDataValue(parsedInput, splitPath);
         }
 
         if (
-          (errors[j].keyword === "additionalServiceCheck"  &&
+          (errors[j].keyword === "additionalServiceCheck" ||
+            errors[j].keyword === "trackingcodeCheck") &&
           fileFormat === "POSTRA_PARCEL"
         ) {
-          prop = splitPath[splitPath.length - 3];
+          if (splitPath[splitPath.length - 1] !== "value") {
+            prop = splitPath[splitPath.length - 1];
+          } else {
+            prop = splitPath[splitPath.length - 3];
+          }
         }
 
         for (let i = 0; i < rows.length; i++) {

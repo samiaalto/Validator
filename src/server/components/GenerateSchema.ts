@@ -216,6 +216,15 @@ const generateSchema = (fileFormat: string) => {
           }
         );
 
+        if (property.Type !== "Array" && property.Type !== "Object") {
+          if (property.Length !== null) {
+            propsArr.push({
+              path: propsPath + ".maxLength",
+              value: property.Length,
+            });
+          }
+        }
+
         if (property.Type === "Array") {
           arrays.push(property.Name);
 

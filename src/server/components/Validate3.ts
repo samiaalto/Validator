@@ -53,7 +53,8 @@ const validate3 = async (data: string, fileFormat: string) => {
           prop = splitPropPath[splitPropPath.length - 1];
           value = errors[j].params.issue;
         } else if (
-          errors[j].keyword === "serviceAddonsCheck" &&
+          (errors[j].keyword === "serviceAddonsCheck" ||
+            errors[j].keyword === "postalCodeCheck") &&
           fileFormat === "POSTRA_PARCEL"
         ) {
           errors[j]["instancePath"] =

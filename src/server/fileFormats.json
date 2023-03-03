@@ -10942,7 +10942,7 @@
           "RepeatMin": 1,
           "RepeatMax": 1,
           "ExampleValue": null,
-          "Validations": []
+          "Validations": [{ "validation": "postalCodeCheck" }]
         },
         {
           "Name": "Street1",

@@ -2,6 +2,7 @@ const additionalServices = require("../additionalServices.json");
 const services = require("../services.json");
 const contracts = require("../contracts.json");
 const countries = require("../countries.json");
+const postalCodes = require("../postalCodes_FI.json");
 
 interface serviceData {
   type?: string;
@@ -171,6 +172,7 @@ const generateValidationData = (fileFormat: string) => {
   output["services"] = out;
   output["contracts"] = contracts;
   output["euCountries"] = countryArr;
+  output["postalCodes"] = postalCodes;
 
   return output;
 };

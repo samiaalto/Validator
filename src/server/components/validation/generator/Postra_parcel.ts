@@ -10,7 +10,7 @@ import swiftCheck from "./validators/Generic/swiftCheck";
 import ISO8601Check from "./validators/Generic/ISO8601Check";
 import ISO8601dateCheck from "./validators/Generic/ISO8601dateCheck";
 import ISO8601timeCheck from "./validators/Generic/ISO8601timeCheck";
-import postalCodeCheck from "./validators/Generic/postalCodeCheck";
+import postalCodeCheck from "./validators/Postra/postalCodeCheck";
 import trackingcodeCheck from "./validators/Generic/trackingcodeCheck";
 import mobileCheck from "./validators/Postra/mobileCheck";
 import customsCheck from "./validators/customsCheck";

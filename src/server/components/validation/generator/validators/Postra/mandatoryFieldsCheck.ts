@@ -1,4 +1,4 @@
-const { _, str } = require("ajv");
+const { _, str, Name } = require("ajv");
 import type { KeywordCxt } from "ajv";
 
 interface testData {
@@ -25,40 +25,96 @@ const mandatoryFieldsCheck: testData = {
     const valid = gen.let("valid");
     cxt.ok(valid);
 
+    function getValue(obj, arrPath) {
+      let arrItems = gen.let("arrItems", _`[]`);
+      let koe = _`${arrPath}.reduce((x, y) => {
+        console.log("TEST");
+        console.log(y);
+        console.log(x);
+        if(${arrItems}.length > 0) {
+          let ret = ${arrItems}[${arrItems}.length -1];
+          ${arrItems}.pop();
+          return ret;
+        }
+        else if(Array.isArray(x)) {
+          for (let item of x) {
+            ${arrItems}.push(item);
+          }
+          let ret = ${arrItems}[${arrItems}.length -1];
+          ${arrItems}.pop();
+          console.log(ret);
+          return ret;
+        }
+        else if (y in x) {
+          return x[y]
+          };
+        return {};
+      }, ${obj})`;
+      return koe;
+    }
+
+    function getVal(obj, props) {
+      if (!props) return obj;
+
+      let propsArr = props.split(".");
+      let prop = propsArr.splice(0, 1);
+      if (typeof obj === "object") {
+        return getVal(obj[prop], propsArr.join("."));
+      }
+      if (Array.isArray(obj)) {
+        for (let item of obj) {
+          return getVal(item, propsArr.join("."));
+        }
+      }
+    }
+
     function validatePath(addon, data, field) {
       let out = gen.let("out", _`true`);
-      let paths = gen.let(
-        "paths",
-        _`[
-        { position: "currencyCode", pointer: "CodValue" },
-        { position: "CodValue", pointer: "" },
-        { position: "CodIBAN", pointer: "" },
-        { position: "CodBIC", pointer: "" },
-        { position: "CONSIGNEE", pointer: "Parties.Party" }        
-      ]`
-      );
-      gen.code(_`console.log(${field})`);
+
+      const getOccurences = new Name("getOccurences");
+      const object = gen.name("object");
+      const key = gen.name("key");
+      let array = gen.name("array");
+      let path = gen.name("path");
+      gen
+        .func(getOccurences, _`${object}, ${key}, ${array}, ${path}`)
+        .try(
+          () => {
+            gen.code(_`${array} = ${array} || []`);
+            gen.code(_`${path} = ${path} || ""`);
+            gen.if(_`'object' === typeof ${object}`, () => {
+              gen.forIn("k", object, (k) =>
+                gen.if(
+                  _`${k} === ${key}`,
+                  () => {
+                    gen.code(
+                      _`${array}.push({value: ${object}[${k}], path: ${path}.concat(${k})})`
+                    );
+                  },
+                  () => {
+                    gen.code(
+                      _`allNodes(${object}[${k}], ${key}, ${array}, ${path}.concat(${k} + "."))`
+                    );
+                  }
+                )
+              );
+            });
+            gen.return(_`${array}`);
+          },
+          (e) => {
+            gen.throw(e);
+          }
+        )
+        .endFunc();
+
+      let occurences = _`getOccurences(${data}, ${field}.name)`;
       gen.if(
-        _`${field}.position !== null`,
+        _`${occurences}.length < 1`,
         () => {
-          let object = _`${paths}[${paths}.findIndex(e => e.position === ${field}.position)].pointer.split(".").reduce((acc, curr) => acc[curr], ${data})`;
-          gen.code(_`console.log(${object})`);
-          gen.if(
-            _`typeof ${object} === "undefined"`,
-            () => {
-              gen.code(_`${out} = false`);
-            },
-            () => {
-              gen.if(_`!${object}.hasOwnProperty(${field}.name)`, () => {
-                gen.code(_`${out} = false`);
-              });
-            }
-          );
+          gen.code(_`${out} = false`);
         },
         () => {
-          gen.if(_`!${data}.hasOwnProperty(${field}.name)`, () => {
-            gen.code(_`${out} = false`);
-          });
+          gen.if(_`${occurences}.length > 1`, () => {});
         }
       );
 

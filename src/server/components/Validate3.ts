@@ -69,6 +69,14 @@ const validate3 = async (data: string, fileFormat: string) => {
           value = getDataValue(parsedInput, splitPath);
         }
 
+        if (errors[j].keyword === "enum" && fileFormat === "POSTRA_PARCEL") {
+          errors[j]["message"] =
+            errors[j].message +
+            ". Allowed values: '" +
+            errors[j].params.allowedValues.join(", ") +
+            "'";
+        }
+
         if (
           (errors[j].keyword === "additionalServiceCheck" ||
             errors[j].keyword === "trackingcodeCheck" ||

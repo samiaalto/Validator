@@ -11444,7 +11444,7 @@
           "RepeatMin": 0,
           "RepeatMax": 1,
           "ExampleValue": null,
-          "Validations": []
+          "Validations": [{ "validation": "customsCheck" }]
         },
         {
           "Name": "CustomsDetail",
@@ -11931,7 +11931,7 @@
           "DisplayName": "Empty",
           "DescriptionFI": null,
           "DescriptionEN": "True if empty dangerous goods packaging. Allowed values: TRUE, FALSE",
-          "Path": "Postra.Shipments.Shipment.0.GoodsItems.GoodsItem.0.DangerousGoodsItems.DangerousGoodsItem.0.TunnelCode",
+          "Path": "Postra.Shipments.Shipment.0.GoodsItems.GoodsItem.0.DangerousGoodsItems.DangerousGoodsItem.0.Empty",
           "Mandatory": false,
           "Type": "Boolean",
           "Length": null,

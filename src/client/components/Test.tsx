@@ -11,6 +11,7 @@ const Test = ({ resource }) => {
   //const rows =
   //  response && response.errors ? response.errors.map((e) => e.row) : [];
   //setRows(rows);
+  const capitalize = (s) => (s && s[0].toUpperCase() + s.slice(1)) || "";
 
   const scrollTo = (position) => {
     if (position) {
@@ -52,7 +53,7 @@ const Test = ({ resource }) => {
           >
             <Row>
               <Col className="error-message" key={i + "_message"}>
-                {e.message}
+                {capitalize(e.message)}
               </Col>
               <Col xs={1} className="error-alert" key={i + "_alert"}></Col>
             </Row>

@@ -12,8 +12,10 @@ import ISO8601dateCheck from "./validators/Generic/ISO8601dateCheck";
 import ISO8601timeCheck from "./validators/Generic/ISO8601timeCheck";
 import postalCodeCheck from "./validators/Postra/postalCodeCheck";
 import trackingcodeCheck from "./validators/Generic/trackingcodeCheck";
+import routingCodeCheck from "./validators/Postra/routingCodeCheck";
+import packageTypeCheck from "./validators/Postra/packageTypeCheck";
 import mobileCheck from "./validators/Postra/mobileCheck";
-import customsCheck from "./validators/customsCheck";
+import customsCheck from "./validators/Postra/customsCheck";
 import contractCheck from "./validators/Postra/contractCheck";
 const fs = require("fs");
 const Ajv = require("ajv");
@@ -50,7 +52,9 @@ const standalone_postra = () => {
   ajv.addKeyword(postalCodeCheck);
   ajv.addKeyword(trackingcodeCheck);
   ajv.addKeyword(mandatoryFieldsCheck);
-  //ajv.addKeyword(customsCheck);
+  ajv.addKeyword(customsCheck);
+  ajv.addKeyword(routingCodeCheck);
+  ajv.addKeyword(packageTypeCheck);
 
   const validate = ajv.compile(schema);
   let moduleCode = standaloneCode(ajv, validate);

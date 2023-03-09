@@ -242,13 +242,16 @@ const generateSchema = (fileFormat: string) => {
         }
 
         if (property.Validations.length > 0) {
+          let enums = [];
           for (let item of property.Validations) {
             if (item.validation) {
               let path = propsPath + "." + item.validation;
               if (
                 item.validation === "serviceAddonsCheck" ||
                 item.validation === "mandatoryFieldsCheck" ||
-                item.validation === "customsCheck"
+                item.validation === "customsCheck" ||
+                item.validation === "routingCodeCheck" ||
+                item.validation === "packageTypeCheck"
               ) {
                 path =
                   "properties.Postra.properties.Shipments.properties.Shipment." +
@@ -258,7 +261,18 @@ const generateSchema = (fileFormat: string) => {
                 path: path,
                 value: true,
               });
+            } else if (
+              item.ValidationType &&
+              item.ValidationType === "Enumeration"
+            ) {
+              enums.push(item.ValidationValue);
             }
+          }
+          if (enums.length > 0) {
+            propsArr.push({
+              path: propsPath + ".enum",
+              value: enums,
+            });
           }
         }
 

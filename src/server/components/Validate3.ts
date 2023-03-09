@@ -20,6 +20,8 @@ const validate3 = async (data: string, fileFormat: string) => {
       if (
         errors[j].keyword === "mandatoryFieldsCheck" ||
         errors[j].keyword === "customsCheck" ||
+        (errors[j].keyword === "routingCodeCheck" &&
+          errors[j].params.issue === "No routing code") ||
         errors[j].keyword === "required" ||
         errors[j].keyword === "type"
       ) {
@@ -54,7 +56,9 @@ const validate3 = async (data: string, fileFormat: string) => {
           value = errors[j].params.issue;
         } else if (
           (errors[j].keyword === "serviceAddonsCheck" ||
-            errors[j].keyword === "postalCodeCheck") &&
+            errors[j].keyword === "postalCodeCheck" ||
+            errors[j].keyword === "routingCodeCheck" ||
+            errors[j].keyword === "packageTypeCheck") &&
           fileFormat === "POSTRA_PARCEL"
         ) {
           errors[j]["instancePath"] =
@@ -67,6 +71,14 @@ const validate3 = async (data: string, fileFormat: string) => {
           value = errors[j].params.issue;
         } else if (splitPath.length > 1) {
           value = getDataValue(parsedInput, splitPath);
+        }
+
+        if (errors[j].keyword === "enum" && fileFormat === "POSTRA_PARCEL") {
+          errors[j]["message"] =
+            errors[j].message +
+            ". Allowed values: '" +
+            errors[j].params.allowedValues.join(", ") +
+            "'";
         }
 
         if (

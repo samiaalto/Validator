@@ -25,49 +25,6 @@ const mandatoryFieldsCheck: testData = {
     const valid = gen.let("valid");
     cxt.ok(valid);
 
-    function getValue(obj, arrPath) {
-      let arrItems = gen.let("arrItems", _`[]`);
-      let koe = _`${arrPath}.reduce((x, y) => {
-        console.log("TEST");
-        console.log(y);
-        console.log(x);
-        if(${arrItems}.length > 0) {
-          let ret = ${arrItems}[${arrItems}.length -1];
-          ${arrItems}.pop();
-          return ret;
-        }
-        else if(Array.isArray(x)) {
-          for (let item of x) {
-            ${arrItems}.push(item);
-          }
-          let ret = ${arrItems}[${arrItems}.length -1];
-          ${arrItems}.pop();
-          console.log(ret);
-          return ret;
-        }
-        else if (y in x) {
-          return x[y]
-          };
-        return {};
-      }, ${obj})`;
-      return koe;
-    }
-
-    function getVal(obj, props) {
-      if (!props) return obj;
-
-      let propsArr = props.split(".");
-      let prop = propsArr.splice(0, 1);
-      if (typeof obj === "object") {
-        return getVal(obj[prop], propsArr.join("."));
-      }
-      if (Array.isArray(obj)) {
-        for (let item of obj) {
-          return getVal(item, propsArr.join("."));
-        }
-      }
-    }
-
     function validatePath(addon, data, field) {
       let out = gen.let("out", _`true`);
 
@@ -93,7 +50,7 @@ const mandatoryFieldsCheck: testData = {
                   },
                   () => {
                     gen.code(
-                      _`allNodes(${object}[${k}], ${key}, ${array}, ${path}.concat(${k} + "."))`
+                      _`getOccurences(${object}[${k}], ${key}, ${array}, ${path}.concat(${k} + "."))`
                     );
                   }
                 )
@@ -108,6 +65,7 @@ const mandatoryFieldsCheck: testData = {
         .endFunc();
 
       let occurences = _`getOccurences(${data}, ${field}.name)`;
+
       gen.if(
         _`${occurences}.length < 1`,
         () => {

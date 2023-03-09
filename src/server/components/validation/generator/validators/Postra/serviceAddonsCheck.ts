@@ -257,7 +257,7 @@ const serviceAddonsCheck: testData = {
                                 _`!${routes}.departure`,
                                 () => {
                                   const service: string = _`${services}[${l}].service`;
-                                  const allowedCountries = _`${routes}.depArr.toString()`;
+                                  const allowedCountries = _`${routes}.depArr.join(", ")`;
                                   const path = _`${route}.depPath`;
                                   const issue = _`${departure}`;
                                   const message = str`Departure '${departure}' is not valid for service '${service}'. Allowed departure countries: '${allowedCountries}'`;
@@ -271,7 +271,7 @@ const serviceAddonsCheck: testData = {
                                 },
                                 () => {
                                   const service: string = _`${services}[${l}].service`;
-                                  const allowedCountries = _`${routes}.destArr.toString()`;
+                                  const allowedCountries = _`${routes}.destArr.join(", ")`;
                                   const path = _`${route}.destPath`;
                                   const issue = _`${destination}`;
                                   const message = str`Destination '${destination}' is not valid for service '${service}'. Allowed destination countries: '${allowedCountries}'`;

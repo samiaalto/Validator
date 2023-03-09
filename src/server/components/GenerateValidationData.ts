@@ -26,6 +26,7 @@ const generateValidationData = (fileFormat: string) => {
     let addons = [];
     let mandatoryFields = [];
     let routes = [];
+    let packageTypes = [];
 
     for (let item of record.Fields) {
       if (fileFormat !== "SMARTSHIP") {
@@ -46,6 +47,12 @@ const generateValidationData = (fileFormat: string) => {
         item.Mandatory
       ) {
         mandatoryFields.push(item.PropertyName);
+      }
+    }
+
+    for (let item of record.PackageTypesAndDimensions) {
+      if (fileFormat === item.MessageFormat) {
+        packageTypes.push(item);
       }
     }
 
@@ -103,6 +110,7 @@ const generateValidationData = (fileFormat: string) => {
     service["mandatoryFields"] = mandatoryFields;
     service["routes"] = routes;
     service["addons"] = addons;
+    service["packageTypes"] = packageTypes;
     out.push(service);
   }
 

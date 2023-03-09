@@ -11242,7 +11242,7 @@
           "RepeatMin": 1,
           "RepeatMax": 1,
           "ExampleValue": "PC",
-          "Validations": []
+          "Validations": [{ "validation": "packageTypeCheck" }]
         },
         {
           "Name": "GrossWeight",
@@ -11984,7 +11984,7 @@
           "RepeatMin": 0,
           "RepeatMax": 1,
           "ExampleValue": "2LSE79172+70000000",
-          "Validations": []
+          "Validations": [{ "validation": "routingCodeCheck" }]
         },
         {
           "Name": "Product",

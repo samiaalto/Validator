@@ -1,6 +1,5 @@
 import * as express from "express";
 import axios from "axios";
-import validate2 from "./components/validate2";
 import validate3 from "./components/Validate3";
 import getFormats from "./components/getFormats";
 import standalone from "./components/validation/generator/SmartShip";
@@ -62,82 +61,6 @@ router.post("/api/validate2", async (req, res, next) => {
       console.log(error);
       return next({ error });
     }
-  }
-});
-
-router.get("/api/validate", async (req, res, next) => {
-  const t0 = process.hrtime();
-  try {
-    let message2 = {
-      pdfConfig: {
-        target1Media: "laser-a5",
-        target2Media: "laser-a4",
-      },
-      shipment: {
-        parcels: [
-          {
-            copies: 1,
-            packageCode: "PKT",
-            dangerousGoods: {
-              netWeight: 0.234,
-            },
-          },
-        ],
-        receiver: {
-          name: "Ricky Receiver",
-          mobile: "+3580007654321",
-          address1: "Keskuskatu 3",
-          zipcode: "00104",
-          city: "Helsinki",
-          country: "FI",
-        },
-        sender: {
-          name: "Sandy Sender",
-          address1: "Keskuskatu 3",
-          zipcode: "00100",
-          city: "Helsinki",
-          country: "FI",
-        },
-        senderPartners: [
-          {
-            id: "POSTI",
-            custNo: "654321",
-          },
-        ],
-        service: {
-          id: "PO2102",
-          normalShipment: true,
-          addons: [
-            {
-              id: "FRAG",
-            },
-            {
-              id: "DLVSAT",
-            },
-            {
-              id: "FDNGPP",
-            },
-          ],
-        },
-      },
-    };
-    //generateSchema();
-    //standalone();
-    //const data = await validatePayload(message);
-    //let t0 = process.hrtime();
-    //const data = validate2(message2);
-    //async function () {
-    //const validationResults = await validatePayLoad(req.body.message);
-    // res.json(validationResults);
-
-    const data = await validate3(message2, "SMARTSHIP");
-    console.dir(data, { depth: null });
-    const t1 = process.hrtime(t0);
-    const processTime = (t1[0] * 1000000000 + t1[1]) / 1000000;
-    res.json({ processTime: Math.round(processTime), data: data });
-  } catch (error) {
-    console.log(error);
-    return next({ error });
   }
 });
 

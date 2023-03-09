@@ -20,6 +20,8 @@ const validate3 = async (data: string, fileFormat: string) => {
       if (
         errors[j].keyword === "mandatoryFieldsCheck" ||
         errors[j].keyword === "customsCheck" ||
+        (errors[j].keyword === "routingCodeCheck" &&
+          errors[j].params.issue === "No routing code") ||
         errors[j].keyword === "required" ||
         errors[j].keyword === "type"
       ) {
@@ -54,7 +56,9 @@ const validate3 = async (data: string, fileFormat: string) => {
           value = errors[j].params.issue;
         } else if (
           (errors[j].keyword === "serviceAddonsCheck" ||
-            errors[j].keyword === "postalCodeCheck") &&
+            errors[j].keyword === "postalCodeCheck" ||
+            errors[j].keyword === "routingCodeCheck" ||
+            errors[j].keyword === "packageTypeCheck") &&
           fileFormat === "POSTRA_PARCEL"
         ) {
           errors[j]["instancePath"] =

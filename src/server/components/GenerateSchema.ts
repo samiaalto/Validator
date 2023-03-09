@@ -249,7 +249,9 @@ const generateSchema = (fileFormat: string) => {
               if (
                 item.validation === "serviceAddonsCheck" ||
                 item.validation === "mandatoryFieldsCheck" ||
-                item.validation === "customsCheck"
+                item.validation === "customsCheck" ||
+                item.validation === "routingCodeCheck" ||
+                item.validation === "packageTypeCheck"
               ) {
                 path =
                   "properties.Postra.properties.Shipments.properties.Shipment." +

@@ -106,8 +106,9 @@ const packageTypeCheck: testData = {
                           () => {
                             const issue = _`${packageType}`;
                             const path = str`${j}/GoodsItems/GoodsItem/${l}/PackageQuantity/0/attr/type`;
+                            const allowed = _`${serviceData}.types.map(e => e.PackageType).join(", ")`;
 
-                            const message = str`'${packageType}' is not valid package type for service '${service}'`;
+                            const message = str`'${packageType}' is not valid package type for service '${service}'. Allowed types: '${allowed}'`;
                             cxt.setParams({
                               message,
                               issue,
@@ -115,6 +116,44 @@ const packageTypeCheck: testData = {
                             });
                             cxt.error();
                             gen.assign(valid, false);
+                          },
+                          () => {
+                            let dimensions = gen.let(
+                              "dimensions",
+                              _`{"GrossWeight": null, "Volume": null, "Length": null, "Width": null, "Height": null}`
+                            );
+                            let packageDimensions = _`${serviceData}.types[${serviceData}.types.findIndex(e => e.PackageType === ${packageType})]`;
+                            let object = _`${data}[${j}].GoodsItems.GoodsItem[${l}]`;
+                            gen.forIn("o", object, (o) => {
+                              gen.if(
+                                _`${dimensions}.hasOwnProperty(${o})`,
+                                () => {
+                                  gen.code(
+                                    _`${dimensions}[${o}] = ${object}[${o}]`
+                                  );
+                                }
+                              );
+                            });
+                            gen.if(
+                              _`${dimensions}.GrossWeight > ${packageDimensions}.MaxWeight_kg || ${dimensions}.GrossWeight < ${packageDimensions}.MinWeight_kg`,
+                              () => {
+                                const issue = _`${dimensions}.GrossWeight`;
+                                const minWeight = _`${packageDimensions}.MinWeight_kg`;
+                                const maxWeight = _`${packageDimensions}.MaxWeight_kg`;
+                                const path = str`${j}/GoodsItems/GoodsItem/${l}/GrossWeight`;
+
+                                const message = str`GrossWeight '${issue}' kg is not within the package type '${packageType}' weight range '${minWeight}'-'${maxWeight}' kg`;
+                                cxt.setParams({
+                                  message,
+                                  issue,
+                                  path,
+                                });
+                                cxt.error();
+                                gen.assign(valid, false);
+                              }
+                            );
+                            gen.code(_`console.log(${dimensions})`);
+                            gen.code(_`console.log(${packageDimensions})`);
                           }
                         );
                       }

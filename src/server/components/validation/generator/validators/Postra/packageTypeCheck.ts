@@ -79,6 +79,47 @@ const packageTypeCheck: testData = {
       return out;
     }
 
+    function getPackageTypes(type, serviceData, service) {
+      let out = gen.let("out", _`{}`);
+      let types = gen.let("types", _`[]`);
+      const k = gen.let("k", _`${serviceData}.types.length`);
+      const l = gen.let("l");
+      gen.for(_`${l} = ${k}; ${l}--;`, () => {
+        gen.if(_`${serviceData}.types[${l}].PackageType === ${type}`, () => {
+          gen.code(_`${types}.push(${serviceData}.types[${l}])`);
+        });
+      });
+
+      gen.if(
+        _`${types}.length === 1`,
+        () => {
+          gen.code(_`${out} = ${types}[0]`);
+        },
+        () => {
+          const m = gen.let("m", _`${types}.length`);
+          const n = gen.let("n");
+          gen.for(_`${n} = ${m}; ${n}--;`, () => {
+            gen.if(
+              _`(${types}[${n}].AdditionalServiceCode !== null && ${service}.addons.some(e => e.value === ${types}[${n}].AdditionalServiceCode.Addon)) || (${types}[${n}].DeliveryLocation === "LOCKER" && ${service}.addons.some(e => e.value.substring(0,2) === "32"))`,
+              () => {
+                gen.code(_`${out} = ${types}[${n}]`);
+              },
+              () => {
+                gen.if(
+                  _`${types}[${n}].AdditionalServiceCode === null && (${service}.addons.length === 0 || ${service}.addons.some(e => e.value.substring(0,2) !== "32" || e.value !== "3174"))`,
+                  () => {
+                    gen.code(_`${out} = ${types}[${n}]`);
+                  }
+                );
+              }
+            );
+          });
+        }
+      );
+
+      return out;
+    }
+
     function validatePackageType() {
       gen.assign(valid, true);
       gen.if(_`typeof ${data} !== "undefined"`, () => {
@@ -122,7 +163,11 @@ const packageTypeCheck: testData = {
                               "dimensions",
                               _`{"GrossWeight": null, "Volume": null, "Length": null, "Width": null, "Height": null}`
                             );
-                            let packageDimensions = _`${serviceData}.types[${serviceData}.types.findIndex(e => e.PackageType === ${packageType})]`;
+                            let packageDimensions = getPackageTypes(
+                              _`${packageType}`,
+                              _`${serviceData}`,
+                              _`${services}[${l}]`
+                            );
                             let object = _`${data}[${j}].GoodsItems.GoodsItem[${l}]`;
                             gen.forIn("o", object, (o) => {
                               gen.if(
@@ -142,7 +187,7 @@ const packageTypeCheck: testData = {
                                 const maxWeight = _`${packageDimensions}.MaxWeight_kg`;
                                 const path = str`${j}/GoodsItems/GoodsItem/${l}/GrossWeight`;
 
-                                const message = str`GrossWeight '${issue}' kg is not within the package type '${packageType}' weight range '${minWeight}'-'${maxWeight}' kg`;
+                                const message = str`GrossWeight '${issue}' kg is not within the package type '${packageType}' weight range '${minWeight}-${maxWeight}' kg`;
                                 cxt.setParams({
                                   message,
                                   issue,
@@ -152,8 +197,96 @@ const packageTypeCheck: testData = {
                                 gen.assign(valid, false);
                               }
                             );
-                            gen.code(_`console.log(${dimensions})`);
-                            gen.code(_`console.log(${packageDimensions})`);
+
+                            gen.if(
+                              _`${dimensions}.Height > ${packageDimensions}.MaxHeight_cm || ${dimensions}.Height < ${packageDimensions}.MinHeight_cm`,
+                              () => {
+                                const issue = _`${dimensions}.Height`;
+                                const minHeight = _`${packageDimensions}.MinHeight_cm`;
+                                const maxHeight = _`${packageDimensions}.MaxHeight_cm`;
+                                const path = str`${j}/GoodsItems/GoodsItem/${l}/Height`;
+
+                                const message = str`Height '${issue}' cm is not within the package type '${packageType}' height range '${minHeight}-${maxHeight}' cm`;
+                                cxt.setParams({
+                                  message,
+                                  issue,
+                                  path,
+                                });
+                                cxt.error();
+                                gen.assign(valid, false);
+                              }
+                            );
+
+                            gen.if(
+                              _`${dimensions}.Width > ${packageDimensions}.MaxWidth_cm || ${dimensions}.Width < ${packageDimensions}.MinWidth_cm`,
+                              () => {
+                                const issue = _`${dimensions}.Width`;
+                                const minWidth = _`${packageDimensions}.MinWidth_cm`;
+                                const maxWidth = _`${packageDimensions}.MaxWidth_cm`;
+                                const path = str`${j}/GoodsItems/GoodsItem/${l}/Width`;
+
+                                const message = str`Width '${issue}' cm is not within the package type '${packageType}' width range '${minWidth}-${maxWidth}' cm`;
+                                cxt.setParams({
+                                  message,
+                                  issue,
+                                  path,
+                                });
+                                cxt.error();
+                                gen.assign(valid, false);
+                              }
+                            );
+
+                            gen.if(
+                              _`${dimensions}.Length > ${packageDimensions}.MaxDepth_cm || ${dimensions}.Length < ${packageDimensions}.MinDepth_cm`,
+                              () => {
+                                const issue = _`${dimensions}.Length`;
+                                const minLength = _`${packageDimensions}.MinDepth_cm`;
+                                const maxLength = _`${packageDimensions}.MaxDepth_cm`;
+                                const path = str`${j}/GoodsItems/GoodsItem/${l}/Length`;
+
+                                const message = str`Length '${issue}' cm is not within the package type '${packageType}' length range '${minLength}-${maxLength}' cm`;
+                                cxt.setParams({
+                                  message,
+                                  issue,
+                                  path,
+                                });
+                                cxt.error();
+                                gen.assign(valid, false);
+                              }
+                            );
+
+                            gen.if(
+                              _`${packageDimensions}.Circumference_cm !== null && ${dimensions}.Height !== null && ${dimensions}.Length !== null && ${dimensions}.Width !== null`,
+                              () => {
+                                let circum = gen.let("circum", _`0`);
+                                let dims = gen.let("dims", _`[]`);
+                                gen.code(_`${dims}.push(${dimensions}.Height)`);
+                                gen.code(_`${dims}.push(${dimensions}.Length)`);
+                                gen.code(_`${dims}.push(${dimensions}.Width)`);
+                                gen.code(_`${dims}.sort()`);
+                                gen.code(
+                                  _`${circum} = (Number(${dims}[0]) * 2) + (Number(${dims}[1]) * 2) + Number(${dims}[2])`
+                                );
+
+                                gen.if(
+                                  _`${packageDimensions}.Circumference_cm < ${circum}`,
+                                  () => {
+                                    const issue = _`${circum}`;
+                                    const circumference = _`${packageDimensions}.Circumference_cm`;
+                                    const path = str`${j}/GoodsItems/GoodsItem/${l}`;
+
+                                    const message = str`Package circumference '${issue}' cm exceeds the package type '${packageType}' maximum circumference '${circumference}' cm`;
+                                    cxt.setParams({
+                                      message,
+                                      issue,
+                                      path,
+                                    });
+                                    cxt.error();
+                                    gen.assign(valid, false);
+                                  }
+                                );
+                              }
+                            );
                           }
                         );
                       }
